@@ -1,0 +1,19 @@
+{
+  "name": "feed",
+  "plural": "feeds",
+  "base": "PersistedModel",
+  "properties": {
+    "id": {
+      "type": "id"
+    },
+    "type": "String",
+    "name": "String",
+    "url":  "String",
+    "icon_image_url": "String",
+    "last_access": "Date"
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

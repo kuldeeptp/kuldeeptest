@@ -1,0 +1,56 @@
+{
+  "name": "mystrategy",
+  "plural": "mystrategy",
+  "base": "PersistedModel",
+  "properties": {
+    "underlying": {
+      "type": "string"
+    },
+    "Lotsize": {
+      "type": "number"
+    },
+    "code": {
+      "type": "string"
+    },
+    "reports": {
+      "type": [
+            {
+              "IV": { "type": "number" },
+              "LTP": { "type": "number" },
+              "CalcPrice": { "type": "number" },
+              "StrikePrice": { "type": "number" },
+              "Type": { "type": "string" },
+              "Lot": { "type": "number" },
+              "Delta": { "type": "number" },
+              "Gamma": { "type": "number" },
+              "Vega": { "type": "number" },
+              "Theta": { "type": "number" },
+              "Rho": { "type": "number" },
+              "LTP": { "type": "number" }
+            }
+        ]
+    },
+    "profit": {
+      "type": [
+        []
+      ]
+    },
+    "netGreek": {
+      "type": {
+             "NetStock": { "type": "number" },
+              "Delta": { "type": "number" },
+              "Gamma": { "type": "number" },
+              "Vega": { "type": "number" },
+              "Theta": { "type": "number" },
+              "Rho": { "type": "number" }
+      }
+    },
+    "date": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

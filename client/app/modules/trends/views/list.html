@@ -1,0 +1,144 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Trends
+  </div>
+
+  <div class='list-group'>
+    <div ng-repeat="trend in ctrl.trends" class="list-group-item">
+    <span class="pull-right btn-group">
+
+    </span>
+      <h4 class="list-group-item-heading">
+        <a href="" ui-sref="^.view({code:trend.code})">{{trend.code}}</a>
+      </h4>
+
+      <p class="list-group-item-text">{{trend.trend}}</p>
+    </div>
+    <div ng-show="!ctrl.trends.length" class="list-group-item">
+      <h4 class="list-group-item-heading" translate>
+        There are no trends
+      </h4>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title tabBorderTop">
+          <h5>Job Roles</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-md-3">
+              <select ng-options="symbol.Code for symbol in symbols" ng-model="selectedSymbol" ng-change="loadDetails(selectedSymbol)">
+              </select>
+              <button class="btn btn-large btn-success">{{selectedSymbol.Code}}</button>
+            </div>
+            <div class="col-md-3">
+              &nbsp;
+            </div>
+            <div class="col-md-3">
+              &nbsp;
+            </div>
+          </div>
+          <div class="row">
+            <form name="rolesForm" novalidate>
+              <div class="col-md-6">
+                <table   class="table table-striped table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Delta</th>
+                    <th>Gamma</th>
+                    <th>Vega</th>
+                    <th>Theta</th>
+                    <th>Rho</th>
+                    <th>IV</th>
+                    <th>Strike</th>
+                    <th>Expiry</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="data in options">
+                    <td>{{data.Delta}}</td>
+                    <td>{{data.Gamma}}</td>
+                    <td> {{data.Vega}}</td>
+                    <td>{{data.Theta}}</td>
+                    <td>{{data.Rho}}</td>
+                    <td>{{data.IV}}</td>
+                    <td>{{data.strike}}</td>
+                    <td>{{data.expiry}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <strong>Strike:</strong> <select ng-options="option.strike for option in options | unique:'strike'" ng-model="selectedStrike">
+                  </select>
+                  </div>
+                  <div class="col-sm-4">
+                    <strong>Expiry:</strong><select ng-options="option.expiry for option in options | unique:'expiry'" ng-model="selectedExpiry" >
+                  </select>
+                  </div>
+                  <div class="col-sm-3">
+                    <strong>Type:</strong><select ng-options="option.instrument_type for option in options | unique:'instrument_type'" ng-model="selectedInstruements">
+                  </select>
+                  </div>
+                  <div class="col-sm-2">
+                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" ng-disabled="false" type="submit" ng-click="filterData()"><strong> <i class="fa fa-plus"></i></strong></button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table  class="table table-striped table-bordered table-hover dataTables-example">
+                      <thead>
+                      <tr>
+                        <th>Delta</th>
+                        <th>Gamma</th>
+                        <th>Vega</th>
+                        <th>Theta</th>
+                        <th>Rho</th>
+                        <th>IV</th>
+                        <th>Strike</th>
+                        <th>Expiry</th>
+                        <th></th>
+                      </tr>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="data in selected">
+                        <td>{{data.Delta}}</td>
+                        <td>{{data.Gamma}}</td>
+                        <td> {{data.Vega}}</td>
+                        <td>{{data.Theta}}</td>
+                        <td>{{data.Rho}}</td>
+                        <td>{{data.IV}}</td>
+                        <td>{{data.strike}}</td>
+                        <td>{{data.expiry}}</td>
+                        <td>
+                        <span>
+                        <a href="" class="btn btn-xs btn-danger" ng-click="removeOption($index)">
+                          <i class="fa fa-trash-o"></i>
+                        </a>
+                      </span>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+</div>
+

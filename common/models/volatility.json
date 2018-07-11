@@ -1,0 +1,35 @@
+{
+  "name": "volatility",
+  "plural": "volatility",
+  "base": "PersistedModel",
+  "properties": {
+    "Date": {
+      "type": "string"
+    },
+    "Symbol": {
+      "type": "string"
+    },
+    "Close": {
+      "type": "number"
+    },
+    "PDClose": {
+      "type": "number"
+    },
+    "LogReturn": {
+      "type": "number"
+    },
+    "PDVolatility": {
+      "type": "number"
+    },
+    "DailyVolatility": {
+      "type": "number"
+    },
+    "AnnualisedVolatility": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

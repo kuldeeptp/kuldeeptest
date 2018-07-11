@@ -1,0 +1,11 @@
+{
+    "name": "tradelogs",
+    "plural": "tradelogs",
+    "base": "tradelogs",
+
+
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

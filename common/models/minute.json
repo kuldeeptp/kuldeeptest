@@ -1,0 +1,12 @@
+{
+  "name": "minute",
+  "plural": "minutes",
+  "base": "day",
+  "properties": {},
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+  ],
+  "methods": {}
+}

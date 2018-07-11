@@ -1,0 +1,14 @@
+{
+  "name": "optionchain",
+  "plural": "optionchain",
+  "base": "Model",
+  "properties": {
+    "instrument_token": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

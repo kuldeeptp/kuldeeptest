@@ -1,0 +1,47 @@
+{
+  "name": "zstreaming",
+  "plural": "zstreamings",
+  "base": "PersistedModel",
+  "properties": {
+    "Time": {
+      "type": "date"
+    },
+    "InstrumentToken": {
+      "type": "number"
+    },
+    "LastTradedPrice": {
+      "type": "number"
+    },
+    "LastTradedQty": {
+      "type": "number"
+    },
+    "AvgTradedPrice": {
+      "type": "number"
+    },
+    "Volume": {
+      "type": "number"
+    },
+    "BuyQty": {
+      "type": "number"
+    },
+    "SellQty": {
+      "type": "number"
+    },
+    "OpenPrice": {
+      "type": "number"
+    },
+    "HighPrice": {
+      "type": "number"
+    },
+    "LowPrice": {
+      "type": "number"
+    },
+    "ClosePrice": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

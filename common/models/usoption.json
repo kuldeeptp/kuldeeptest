@@ -1,0 +1,36 @@
+{
+  "name": "Usoption",
+  "base": "Model",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "getUSOption": {
+      "accepts": [
+        {
+          "arg": "code",
+          "type": "string",
+          "http": {
+            "source": "query"
+          }
+        },
+        {
+          "arg": "date",
+          "type": "string",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": {
+        "arg": "data",
+        "type": "Array"
+      },
+      "http": {
+        "verb": "get",
+        "path": "/getUSOption"
+      }
+    }
+  }
+}

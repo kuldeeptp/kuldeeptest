@@ -1,0 +1,1 @@
+About stock market thing

@@ -1,0 +1,32 @@
+{
+  "name": "trend",
+  "plural": "trends",
+  "base": "PersistedModel",
+  "properties": {
+    "id": {
+      "type": "id"
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+
+    "trend": {
+      "type": "number"
+    },
+    "since": {
+      "type": "number"
+    },
+    "time": {
+      "type": "string"
+
+    },
+    "published": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

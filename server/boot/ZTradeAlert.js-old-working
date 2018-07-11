@@ -1,0 +1,109 @@
+/**
+ * Created by tekmint on 21/08/16.
+ */
+/**
+ * Created by kuldeep on 11/07/16.
+ */
+
+module.exports = function(app) {
+
+    var redis = require('redis');
+    var Symbol = app.models.symbols;
+    var Tradelogs = app.models.tradelogs;
+
+
+    function task(){
+        console.log("Running : ",Date());
+        var sub = redis.createClient();
+        sub.subscribe("ZAdminTradeAlert");
+        sub.on('message', function(channel, message) {
+                var msg, trend;
+                console.log('MSG: ',message);
+                msg = JSON.parse(message);
+                console.log('Message \'' + msg.Code + '\' on channel \'' + channel + '\' arrived!');
+                msg.to = 'kuldeep.pal@gmail.com';
+
+                return Symbol.find({where:{Code: msg.Code}}, function(err, data) {
+                    var newTrend, oldTrend;
+                    if (data.length) {
+                        console.log('symbol data : ',data);
+                        oldTrend = parseInt(data[0].trend);
+                        newTrend = parseInt(msg.trend);
+                        console.log('Oldtrend : ', data[0].trend, '  newTrend: ', msg.trend);
+
+                        if (oldTrend !== newTrend && newTrend !== 0) {
+                            console.log('Sending Mail : ', msg.Code);
+                            return Tradelogs.find({where:{Code:msg.Code,Res:msg.Res,Active:1}}, function(err, tradedata) {
+                                if (tradedata.length ){
+                                    console.log('Trades found',tradedata[0] );
+                                    if(tradedata[0].TradeType==1 && msg.price <= tradedata[0].StopLoss){
+                                        Tradelogs.update({Code:msg.Code,Res:msg.Res,Active:1},{
+                                            Active: 0,
+                                            TakeProfit: msg.price,
+                                            ExitTime:msg.published
+
+                                        }, function(err, data) {});
+                                        msg.content = "@ "+msg.published+" Stop Loss triggered on long position  @ "+msg.price+" on "+msg.Res+" min strategy"
+                                    }else if(tradedata[0].TradeType== -1 && msg.price >= tradedata[0].StopLoss){
+                                        Tradelogs.update({Code:msg.Code,Res:msg.Res,Active:1},{
+                                            Active: 0,
+                                            TakeProfit: msg.price,
+                                            ExitTime:msg.published
+
+                                        }, function(err, data) {});
+                                        msg.content = "@ "+msg.published+" Stop Loss triggered on short position @ "+msg.price+" on "+msg.Res+" min strategy"
+                                    }
+
+
+                                }else{
+                                    //console.log('No trades found');
+                                    var tradeCollection = [{
+                                        Code:msg.Code,
+                                        Price:msg.price,
+                                        StopLoss:msg.stop,
+                                        TakeProfit:0,
+                                        EntryTime:msg.published,
+                                        Res:msg.Res,
+                                        TradeType:msg.trend,
+                                        Active:1
+                                    }]
+                                    Tradelogs.create(tradeCollection,function(err, feeds){
+                                        console.log('New Trade: ',feeds);
+                                    });
+                                    if(msg.trend >1){
+                                        msg.content = "@ "+msg.published+" Entered Long @ "+msg.price+" on "+msg.Res+" min strategy"
+                                    }else if(msg.trend < 1){
+                                        msg.content = "@ "+msg.published+" Entered Short @ "+msg.price+" on "+msg.Res+" min strategy";
+                                    }
+
+                                }
+                                if(msg.content){
+                                    console.log('Content Mail : ', msg.content);
+                                    msg.body = "<html><title>" + msg.Code + " Trade Alert</title><body> <p><strong>" + msg.Code + "</strong>  </p> <p>" + msg.content + "</p> <p> <a href='http://dailymint.com.au/'>Dailymint.com.au</a> </p></body></html>";
+
+                                    // app.models.Email.send({
+                                    //     to: 'kuldeep.pal@gmail.com,pal.dilip@gmail.com',
+                                    //     from: 'kuldeep.pal@gmail.com',
+                                    //     subject: msg.Code + ' Trade Alert ',
+                                    //     html: msg.body
+                                    // }, function(err, mail) {
+                                    //     console.log('email sent!');
+                                    //     //cb(err);
+                                    // });
+                                }
+
+                                return Symbol.update({Code:msg.Code},{
+                                    trend: msg.trend,
+                                    published: new Date()
+
+                                }, function(err, data) {});
+                            });
+
+                        }
+                    }
+                });
+        });
+    }
+    task();
+}
+///'{"code":"NIFTY50","trend":"1","price":"8660","since":"5","published":"30160820"}'

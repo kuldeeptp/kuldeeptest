@@ -1,0 +1,36 @@
+{
+  "name": "day",
+  "plural": "days",
+  "base": "PersistedModel",
+  "properties": {
+    "id": {
+      "type": "id"
+    },
+    "Code": {
+      "type": "string"
+    },
+    "Date": {
+      "type": "date"
+    },
+    "Open": {
+      "type": "number"
+    },
+    "High": {
+      "type": "number"
+    },
+    "Low": {
+      "type": "number"
+    },
+    "Close": {
+      "type": "number"
+    },
+    "Volume": {
+      "type": "number"
+    }
+
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

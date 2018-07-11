@@ -1,0 +1,12 @@
+{
+  "name": "threeminute",
+  "plural": "threeminutes",
+  "base": "day",
+  "properties": {},
+  "validations": [],
+  "relations": {
+  },
+  "acls": [
+  ],
+  "methods": {}
+}

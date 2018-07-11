@@ -1,0 +1,59 @@
+{
+  "name": "faooi",
+  "plural": "faooi",
+  "base": "PersistedModel",
+  "properties": {
+    "date" :{
+      "type": "date"
+    },
+    "Client_Type" : {
+      "type": "string"
+    },
+    "Future_Index_Long" : {
+      "type": "number"
+    },
+    "Future_Index_Short" : {
+      "type": "number"
+    },
+    "Future_Stock_Long" : {
+      "type": "number"
+    },
+    "Future_Stock_Short" : {
+      "type": "number"
+    },
+    "Option_Index_Call_Long" : {
+      "type": "number"
+    },
+    "Option_Index_Put_Long" : {
+      "type": "number"
+    },
+    "Option_Index_Call_Short" : {
+      "type": "number"
+    },
+    "Option_Index_Put_Short" : {
+      "type": "number"
+    },
+    "Option_Stock_Call_Long" : {
+      "type": "number"
+    },
+    "Option_Stock_Put_Long" : {
+      "type": "number"
+    },
+    "Option_Stock_Call_Short" : {
+      "type": "number"
+    },
+    "Option_Stock_Put_Short" : {
+      "type": "number"
+    },
+    "Total_Long_Contracts" : {
+      "type": "number"
+    },
+    "Total_Short_Contracts" : {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

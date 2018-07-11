@@ -1,0 +1,42 @@
+{
+  "name": "tradelogs",
+  "plural": "tradelogs",
+  "base": "PersistedModel",
+  "properties": {
+
+    "Code": {
+      "type": "string"
+    },
+    "Price": {
+      "type": "number"
+    },
+    "StopLoss": {
+      "type": "number"
+    },
+    "TakeProfit": {
+      "type": "number"
+    },
+    "ExitPrice": {
+      "type": "number"
+    },
+    "EntryTime": {
+      "type": "string"
+    },
+    "Res": {
+      "type": "number"
+    },
+    "Active": {
+      "type": "number"
+    },
+    "TradeType": {
+      "type": "number"
+    },
+    "ExitTime": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

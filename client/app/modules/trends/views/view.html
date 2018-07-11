@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <a href="" ui-sref="^.list" class="btn btn-xs btn-default"><i class="fa fa-arrow-left"></i></a>
+    {{ctrl.trend[0].code}}
+    <span class="pull-right btn-group">
+
+    </span>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+
+      <div class="col-lg-4" ng-repeat="code in ctrl.trend">
+        <img gravatar-src="data/trend/{{ctrl.trend[0].code}}" class="img-circle" alt="User Image">
+        <p><strong>Trend: </strong>{{code.trend}}</p>
+        <p><strong>Since: </strong>{{code.since}}</p>
+        <p><strong>Published: </strong>{{code.published}}</p>
+
+      </div>
+
+      <div class="col-lg-4"></div>
+      <div class="col-lg-4"></div>
+
+    </div>
+    <pre>{{ctrl.trend | json}}</pre>
+  </div>
+</div>

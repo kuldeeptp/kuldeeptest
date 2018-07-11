@@ -1,0 +1,58 @@
+{
+    "name": "instrument",
+    "plural": "instrument",
+    "base": "PersistedModel",
+    "properties": {
+    "id": {
+        "type": "id"
+    },
+    "instrument_token": {
+        "type": "Number",
+        "required": true
+    },
+    "exchange_token": {
+        "type": "Number",
+        "required": false
+    },
+        "tradingsymbol": {
+            "type": "string",
+            "required": true
+        },
+        "last_price": {
+            "type" : "Number",
+            "required": false
+        },
+        "expiry":{
+            "type":"Date",
+            "required":false
+        },
+        "strike": {
+            "type": "Number",
+            "required": false
+        },
+        "tick_size": {
+            "type" : "Number",
+            "required": false
+        },
+        "lot_size":{
+            "type":"Number",
+            "required":false
+        },
+        "instrument_type": {
+            "type": "string",
+            "required": false
+        },
+        "segment": {
+            "type" : "string",
+            "required": false
+        },
+        "exchange":{
+            "type":"string",
+            "required":false
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

@@ -1,0 +1,36 @@
+{
+  "name": "Dividend",
+  "base": "Model",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "getDividend": {
+      "accepts": [
+        {
+          "arg": "f",
+          "type": "string",
+          "http": {
+            "source": "query"
+          }
+        },
+        {
+          "arg": "s",
+          "type": "string",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": {
+        "arg": "data",
+        "type": "Array"
+      },
+      "http": {
+        "verb": "get",
+        "path": "/getDividend"
+      }
+    }
+  }
+}

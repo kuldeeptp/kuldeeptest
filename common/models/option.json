@@ -1,0 +1,47 @@
+{
+  "name": "option",
+  "plural": "option",
+  "base": "PersistedModel",
+  "properties": {
+    "instrument_token": {
+      "type": "number"
+    },
+    "exchange_token": {
+      "type": "number"
+    },
+    "tradingsymbol": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "last_price": {
+      "type": "number"
+    },
+    "expiry": {
+      "type": "string"
+    },
+    "strike": {
+      "type": "number"
+    },
+    "tick_size": {
+      "type": "number"
+    },
+    "lot_size": {
+      "type": "number"
+    },
+    "instrument_type": {
+      "type": "string"
+    },
+    "segment": {
+      "type": "string"
+    },
+    "exchange": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

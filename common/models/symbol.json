@@ -1,0 +1,38 @@
+{
+    "name": "symbols",
+    "plural": "symbols",
+    "base": "PersistedModel",
+    "properties": {
+    "id": {
+        "type": "id"
+    },
+    "Token": {
+        "type": "string",
+        "required": true
+    },
+    "Type": {
+        "Type": "string",
+        "required": false
+    },
+        "Code": {
+            "type": "string",
+            "required": true
+        },
+        "Trend": {
+            "type" : "Number",
+            "required": false
+        },
+        "Trend2": {
+            "type" : "Number",
+            "required": false
+        },
+        "Since":{
+            "type":"Number",
+            "required":false
+        }
+},
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": {}
+}

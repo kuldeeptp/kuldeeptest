@@ -1,0 +1,49 @@
+{
+  "name": "ganntradelogs",
+  "plural": "ganntradelogs",
+  "base": "Model",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "number",
+      "required": false
+    },
+    "Code": {
+      "type": "string"
+    },
+    "Price": {
+      "type": "number"
+    },
+    "StopLoss": {
+      "type": "number"
+    },
+    "TargetProfit": {
+      "type": "number"
+    },
+    "ExitPrice": {
+      "type": "number"
+    },
+    "EntryTime": {
+      "type": "string"
+    },
+    "Res": {
+      "type": "number"
+    },
+    "Active": {
+      "type": "number"
+    },
+    "TradeType": {
+      "type": "number"
+    },
+    "ExitTime": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,23 @@
+{
+  "name": "code",
+  "plural": "code",
+  "base": "PersistedModel",
+  "properties": {
+    "Underlying": {
+      "type": "string"
+    },
+    "Code": {
+      "type": "string"
+    },
+    "Lot": {
+      "type": "number"
+    },
+    "Type": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

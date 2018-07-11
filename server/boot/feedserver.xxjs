@@ -1,0 +1,120 @@
+/**
+ * Created by tekmint on 17/07/16.
+ */
+'use strict';
+
+module.exports = function(app) {
+    var request = require('request');
+    var async = require('async');
+    var reader = require(process.cwd()+"/common/feedreader");
+    var Article = app.models.article;
+    var Feed = app.models.feed;
+
+    var task = function(){
+        var guids = [];
+        var articleCollection =[];
+
+        Article.find({ fields: {guid: true} }, function(err, articles) {
+            //console.log("Articles id : ", articles);
+            guids = articles.map(function(a) {
+                return a.guid;
+            });
+            //console.log('GUIDS : ',guids);
+        });
+
+        Feed.find({}, function(err, result) {
+            // get All feeds
+            if (err) {
+                console.log(err);
+            } else if(result.length == 0) {
+                feedInit();
+            }else if (result.length > 0 ) {
+                async.forEach(result,function(feed,callback){
+                    reader(feed.url, function(err, articles) {
+                        if (err) throw err;
+
+                        articles.forEach(function(article){
+                            if(guids.indexOf(article.guid) !== -1){
+                                return;
+                            }
+                            articleCollection.push({
+                                feedId: feed.id ? feed.id:'',
+                                guid: article.guid ,
+                                title: article.title,
+                                content: article.content ? article.content:'',
+                                author: article.author? article.author : '',
+                                link: article.link?article.link : '',
+                                published: article.published? article.published : '',
+                                type: feed.type
+                            });
+
+                        });
+                        Article.create(articleCollection,function(err,articles){
+                            console.log("Article inserted : ",articleCollection.length);
+                            articleCollection = [];
+                            callback();
+                        });
+                    });
+                })
+            }
+        });
+    }
+
+    var feedInit = function (){
+
+        var feedCollection = [{
+            type: 'News',
+            name: 'CBS Marketwatch',
+            url:   'http://feeds.marketwatch.com/marketwatch/topstories/',
+            icon_image_url: 'http://www.marketwatch.com/rss/marketwatch.gif',
+            last_access: new Date()
+        },
+            {
+                type: 'News',
+                name: 'Daily FX',
+                url:   'https://www.dailyfx.com/feeds/forex_market_news',
+                icon_image_url: '',
+                last_access: new Date()
+            },
+            {
+                type: 'Calendar',
+                name: 'FX Street',
+                url:   'http://xml.fxstreet.com/fundamental/economic-calendar/events.xml',
+                icon_image_url: 'http://mediaserver.fxstreet.com/images/fxstreet-provider-logo1-en.gif',
+                last_access: new Date()
+            },
+            {
+                type: 'Blogs',
+                name: 'Seeking Alpha',
+                url:   'http://seekingalpha.com/tag/forex.xml',
+                icon_image_url: '',
+                last_access: new Date()
+            },
+            {
+                type: 'Blogs',
+                name: 'Daily FX',
+                url:   'https://www.dailyfx.com/feeds/all',
+                icon_image_url: '',
+                last_access: new Date()
+            },{
+                type: 'Blogs',
+                name: 'Calafia Beach Pundit',
+                url:   'http://scottgrannis.blogspot.com/feeds/posts/default',
+                icon_image_url: '',
+                last_access: new Date()
+            },
+            {
+                type: 'Blogs',
+                name: 'Zero Hedge',
+                url:   'http://feeds.feedburner.com/zerohedge/feed',
+                icon_image_url: '',
+                last_access: new Date()
+            }];
+
+        Feed.create(feedCollection,function(err, feeds){
+            //console.log('Inserted : ',feeds);
+        })
+    }
+    task();
+    //setInterval(task, 30000)  // every five minutes
+}

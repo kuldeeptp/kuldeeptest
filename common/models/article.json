@@ -1,0 +1,22 @@
+{
+  "name": "article",
+  "plural": "articles",
+  "base": "PersistedModel",
+  "properties": {
+    "id": {
+      "type": "id"
+    },
+    "feedId": "String",
+    "title": "String",
+    "author": "String",
+    "link":   "String",
+    "content": "String",
+    "type": "String",
+    "guid": "String",
+    "published": "Date"
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

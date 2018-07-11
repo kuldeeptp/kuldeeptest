@@ -1,0 +1,97 @@
+/**
+ * Created by tekmint on 21/08/16.
+ */
+/**
+ * Created by kuldeep on 11/07/16.
+ */
+
+module.exports = function(app) {
+
+    var redis = require('redis');
+    var Symbol = app.models.symbols;
+    var Day = app.models.day;
+    var Threeminute = app.models.threeminute;
+    var Thirtyminute = app.models.thirtyminute;
+
+    function task(){
+        console.log("Running : ",Date());
+        var sub = redis.createClient();
+        sub.subscribe("AdminTradeAlert");
+        sub.on('message', function(channel, message) {
+                var msg, trend;
+                console.log('MSG: ',message);
+                msg = JSON.parse(message);
+                console.log('Message \'' + msg.code + '\' on channel \'' + channel + '\' arrived!');
+                msg.to = 'kuldeep.pal@gmail.com';
+                trend = '';
+                if (msg.trend === 1) {
+                    trend = 'Enter Long';
+                } else if (msg.trend === -1) {
+                    trend = 'Enter Short';
+                } else if (msg.trend > 1) {
+                    trend = 'Exit Long';
+                } else if (msg.trend < -1) {
+                    trend = 'Exit Short';
+                }
+                return Symbol.find({
+                    code: msg.code
+                }, function(err, data) {
+                    var newTrend, oldTrend;
+                    if (data.length) {
+                        oldTrend = parseInt(data[0].trend);
+                        newTrend = parseInt(msg.trend);
+                        console.log('symbol : ', oldTrend, '  message: ', newTrend);
+
+                        if (oldTrend !== newTrend && newTrend !== 0) {
+                            console.log('Sending Mail : ', msg.code);
+                            if (oldTrend === 1 && newTrend > 8) {
+                                msg.content = " Trend changes from Long to Exit Long";
+                            } else if (oldTrend === 1 && newTrend === -1) {
+                                msg.content = " Trend changes from Long to Short";
+                            } else if (oldTrend === 1 && newTrend < -1) {
+                                msg.content = " Trend changes from Long to Exit";
+                            } else if (oldTrend === -1 && newTrend < -1) {
+                                msg.content = " Trend changes from Short to Exit Short";
+                            } else if (oldTrend === -1 && newTrend === 1) {
+                                msg.content = " Trend changes from Short to Long";
+                            } else if (oldTrend === -1 && newTrend > 1) {
+                                msg.content = " Trend changes from Short to Exit ";
+                            } else if (oldTrend > 8 && newTrend === 1) {
+                                msg.content = " Trend changes from Exit Long to Long";
+                            } else if (oldTrend > 8 && newTrend === -1) {
+                                msg.content = " Trend changes from Exit Long to Short";
+                            } else if (oldTrend > 8 && newTrend < -1) {
+                                msg.content = " Trend changes from Exit Long  to Exit Short";
+                            } else if (oldTrend < -8 && newTrend === -1) {
+                                msg.content = " Trend changes from Exit Short to Short";
+                            } else if (oldTrend < -8 && newTrend === 1) {
+                                msg.content = " Trend changes from Exit Short to Long";
+                            } else if (oldTrend < -8 && newTrend > 8) {
+                                msg.content = " Trend changes to Exit Long";
+                            }
+                            console.log('Content Mail : ', msg.content);
+                            msg.body = "<html><title>" + msg.code + " Trade Alert</title><body><p><strong>Price Alert Notification</strong></p> <p><strong>" + msg.code + "</strong> " + msg.price + " " + trend + "</p> <p>" + msg.content + "</p> <p> <img src='http://dailymint.com.au/data/patern/" + msg.code + ".png' /> </p> <p><a href='http://dailymint.com.au/data/patern/" + msg.code + ".png'>Click here to follow " + msg.code + " chart  </a></p> <p> <a href='http://dailymint.com.au/'>Dailymint.com.au</a> </p></body></html>";
+
+                            app.models.Email.send({
+                                to: 'kuldeep.pal@gmail.com, pal.dilip@gmail.com',
+                                from: 'kuldeep.pal@gmail.com',
+                                subject: 'Trade Alert Notification',
+                                html: msg.body
+                            }, function(err, mail) {
+                                console.log('email sent!');
+                                //cb(err);
+                            });
+                            return Symbol.update({code:msg.code},{
+                                    trend: msg.trend,
+                                    since: msg.since,
+                                    published: msg.published
+
+                                }, function(err, data) {});
+                        }
+                    }
+                });
+        });
+    }
+    task();
+}
+///'{"code":"NIFTY50","trend":"1","price":"8660","since":"5","published":"30160820"}'

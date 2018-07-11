@@ -1,0 +1,199 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models",
+      "../node_modules/loopback-component-passport/lib/models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "zerodha"
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": true
+  },
+  "userCredential": {
+    "dataSource": "db",
+    "public": true
+  },
+  "userIdentity": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AppModel": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Page": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Note": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Post": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Setting": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Product": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Category": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Event": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AuthProvider": {
+    "dataSource": "db",
+    "public": true
+  },
+  "user": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Meta": {
+    "dataSource": "db",
+    "public": true
+  },
+  "trend": {
+    "dataSource": "db",
+    "public": true
+  },
+  "symbols": {
+    "dataSource": "db",
+    "public": true
+  },
+  "day": {
+    "dataSource": "db",
+    "public": false
+  },
+  "threeminute": {
+    "dataSource": "db",
+    "public": false
+  },
+  "thirtyminute": {
+    "dataSource": "db",
+    "public": false
+  },
+  "minute": {
+    "dataSource": "db",
+    "public": false
+  },
+  "feed": {
+    "dataSource": "db",
+    "public": true
+  },
+  "article": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Email": {
+    "dataSource": "Email"
+  },
+  "instrument": {
+    "dataSource": "db",
+    "public": true
+  },
+  "tradelogs": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ganntradelogs": {
+    "dataSource": "zerodha",
+    "public": true
+  },
+  "gannrangetradelogs": {
+    "dataSource": "zerodha",
+    "public": true
+  },
+  "gannstrategy": {
+    "dataSource": "zerodha",
+    "public": true
+  },
+  "zstreaming": {
+    "dataSource": "db",
+    "public": true
+  },
+  "option": {
+    "dataSource": "db",
+    "public": true
+  },
+  "volatility": {
+    "dataSource": "db",
+    "public": true
+  },
+  "optionchain": {
+    "dataSource": "db",
+    "public": true
+  },
+  "nseoptionchain": {
+    "dataSource": "db",
+    "public": true
+  },
+  "faooi": {
+    "dataSource": "db",
+    "public": true
+  },
+  "code": {
+    "dataSource": "db",
+    "public": true
+  },
+  "mystrategy": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Dividend": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Usoption": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Momentum": {
+    "dataSource": "zerodha",
+    "public": true
+  },
+  "Stock": {
+    "dataSource": "zerodha",
+    "public": true
+  },
+  "Coverdoption": {
+    "dataSource": "zerodha",
+    "public": true
+  },
+  "gapstrategy": {
+    "dataSource": "db",
+    "public": true
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "name": "gannstrategy",
+  "plural": "gannstrategy",
+  "base": "PersistedModel",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "Code": {
+      "type": "string"
+    },
+    "InstrumentToken": {
+      "type": "number"
+    },
+    "nres": {
+      "type": "number"
+    },
+    "Buy": {
+      "type": "number"
+    },
+    "TP1": {
+      "type": "number"
+    },
+    "TP2": {
+      "type": "number"
+    },
+    "TP3": {
+      "type": "number"
+    },
+    "TP4": {
+      "type": "number"
+    },
+    "TP5": {
+      "type": "number"
+    },
+    "TP6": {
+      "type": "number"
+    },
+    "Bstp": {
+      "type": "number"
+    },
+    "Short": {
+      "type": "number"
+    },
+    "STP1": {
+      "type": "number"
+    },
+    "STP2": {
+      "type": "number"
+    },
+    "STP3": {
+      "type": "number"
+    },
+    "STP4": {
+      "type": "number"
+    },
+    "STP5": {
+      "type": "number"
+    },
+    "STP6": {
+      "type": "number"
+    },
+    "Sstp": {
+      "type": "number"
+    },
+    "date": {
+      "type": "string"
+    },
+    "lastTraded": {
+      "type": "string"
+    },
+
+    "rangeLastTraded": {
+      "type": "string"
+    },
+    "TradeCount": {
+      "type": "string"
+    },
+    "t1": {
+      "type": "number"
+    },
+    "t2": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

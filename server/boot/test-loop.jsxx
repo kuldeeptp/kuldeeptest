@@ -1,0 +1,206 @@
+/**
+ * Created by kuldeep on 11/07/16.
+ */
+
+'use strict';
+
+
+
+module.exports = function(app) {
+
+    var fs = require("fs");
+    var request = require('request');
+    var async = require('async');
+    var spawn = require('child_process').spawn;
+
+    var Symbol = app.models.symbols;
+    var Instrument = app.models.instrument;
+    var Day = app.models.day;
+    var Threeminute = app.models.threeminute;
+    var Thirtyminute = app.models.thirtyminute;
+
+
+    function task() {
+        console.log("Running : ", Date());
+        //Instrument.find({where:{instrument_type:'EQ',exchange:'NSE',segment:'NSE',tradingsymbol:{inq:['ABIRLANUVO','ACC','ADANIENT','ADANIPORTS','ADANIPOWER','AJANTPHARM','ALBK','AMARAJABAT','AMBUJACEM','ANDHRABANK','APOLLOHOSP','APOLLOTYRE','ARVIND','ASHOKLEY','ASIANPAINT','AUROPHARMA','AXISBANK','BAJAJ-AUTO','BANKBARODA','BANKINDIA','BATAINDIA','BEL','BEML','BHARATFIN','BHARATFORG','BHARTIARTL','BHEL','BIOCON','BOSCHLTD','BPCL','BRITANNIA','CADILAHC','CAIRN','CANBK','CASTROLIND','CEATLTD','CENTURYTEX','CESC','CIPLA','COALINDIA','COLPAL','CONCOR','CROMPGREAV','CUMMINSIND','DABUR','DHFL','DISHTV','DIVISLAB','DLF','DRREDDY','EICHERMOT','ENGINERSIN','EXIDEIND','FEDERALBNK','GAIL','GLENMARK','GMRINFRA','GODREJCP','GODREJIND','GRANULES','GRASIM','HAVELLS','HCLTECH','HDFC','HDFCBANK','HDIL','HEROMOTOCO','HEXAWARE','HINDALCO','HINDPETRO','HINDUNILVR','HINDZINC','IBREALEST','IBULHSGFIN','ICICIBANK','ICIL','IDBI','IDEA','IDFC','IFCI','IGL','INDIACEM','INDUSINDBK','INFRATEL','INFY','IOC','IRB','ITC','JETAIRWAYS','JINDALSTEL','JISLJALEQS','JPASSOCIAT','JSWENERGY','JSWSTEEL','JUBLFOOD','JUSTDIAL','KOTAKBANK','KPIT','KSCL','KTKBANK','L&TFH','LICHSGFIN','LT','LUPIN','M&M','M&MFIN','MARICO','MARUTI','MCLEODRUSS','MINDTREE','MOTHERSUMI','MRF','NCC','NHPC','NIITTECH','NMDC','NTPC','OIL','ONGC','ORIENTBANK','PAGEIND','PCJEWELLER','PETRONET','PFC','PIDILITIND','PNB','POWERGRID','PTC','RCOM','RECLTD','RELCAPITAL','RELIANCE','RELINFRA','SAIL','SBIN','SIEMENS','SINTEX','SOUTHBANK','SRF','SRTRANSFIN','SUNPHARMA','SUNTV','SYNDIBANK','TATACHEM','TATACOMM','TATAELXSI','TATAGLOBAL','TATAMOTORS','TATAMTRDVR','TATAPOWER','TATASTEEL','TCS','TECHM','TITAN','TORNTPHARM','TV18BRDCST','TVSMOTOR','UBL','ULTRACEMCO','UNIONBANK','UPL','VEDL','VOLTAS','WIPRO','WOCKPHARMA','YESBANK','ZEEL']}}}, function(err, symbols) {
+        Symbol.find({where: {Code:'AUROPHARMA',Type: 'EQ'}}, function (err, symbols) {
+
+            console.log("instruments : ", symbols);
+            //minutes(symbols);
+            //minutes30(symbols);
+            //minutes3(symbols);
+            //minutes5(symbols);
+            daily(symbols);
+            //async.series([ minutes3(symbols),
+            //    minutes30(symbols),
+            //    daily(symbols)],function(err,res){
+            //    if(err){
+            //        console.log('Error Result : ',err);
+            //
+            //    }else{
+            //        console.log('All Task completed ');
+            //    }
+            //
+            //})
+
+        });
+
+    }
+
+
+    function minutes(symbols) {
+        Threeminute.destroyAll({open: {gt: 0}}, function (err, obj) {
+        });
+        fetchZerodha(symbols, 'minute');
+    }
+
+    function minutes3(symbols) {
+        Threeminute.destroyAll({open: {gt: 0}}, function (err, obj) {
+        });
+        fetchZerodha(symbols, '3minute');
+    }
+
+    function minutes5(symbols) {
+        Threeminute.destroyAll({open: {gt: 0}}, function (err, obj) {
+        });
+        fetchZerodha(symbols, '5minute');
+    }
+
+    function minutes30(symbols) {
+        Thirtyminute.destroyAll({open: {gt: 0}}, function (err, obj) {
+        });
+        fetchZerodha(symbols, '30minute');
+    }
+
+    function daily(symbols) {
+        Day.destroyAll({open: {gt: 0}}, function (err, obj) {
+        });
+        fetchZerodha(symbols, 'day');
+    }
+
+// duration can be day ,3minute, 30minute
+    var fetchZerodha = function (symbols, duration) {
+        duration = typeof duration !== 'undefined' ? duration : 'day';
+
+        var tasks = [];
+        var endDate = new Date();
+        var startDate = new Date();
+
+        //startDate.setFullYear(startDate.getFullYear() -1);
+
+        if (duration == 'minute') {
+            startDate.setDate(startDate.getDate() - 1);
+        } else if (duration == '3minute') {
+            startDate.setDate(startDate.getDate() - 89);
+        } else if (duration == '5minute') {
+            startDate.setDate(startDate.getDate() - 1);
+        } else if (duration == '30minute') {
+            startDate.setDate(startDate.getDate() - 180);
+        } else {
+            startDate.setFullYear(startDate.getFullYear() - 1);
+            startDate.setMonth(1);
+        }
+
+        startDate = startDate.toJSON().slice(0, 10);
+        endDate = endDate.toJSON().slice(0, 10);
+
+        symbols.forEach(function (symbol) {
+
+            tasks.push(function (callback) {
+
+                var serviceURL = "https://api.kite.trade/instruments/historical/" + symbol.Token + "/" + duration + "?from=" + startDate + "&to=" + endDate + "&api_key=6m5t0f42wf6a86es&access_token=65gld970pu90o92l8k0gs5m1p2fka3wd";
+
+                request(serviceURL, function (error, response, body) {
+                    if (error) {
+                        console.log('Error : ', error)
+                    }
+                    body = JSON.parse(body);
+                    if (body.status == 'success') {
+                        fs.unlink(process.cwd() + '/data/' + duration + '/' + symbol.Code + '.csv', function (err) {
+                            //if(err) return console.log(err);
+                            console.log('Deleted successfully : ', process.cwd() + '/data/' + duration + '/' + symbol.Code + '.csv');
+                            fs.appendFile(process.cwd() + '/data/' + duration + '/' + symbol.Code + '.csv', 'Date,Open,High,Low,Close,Volume' + '\n', 'utf8', function (data) {
+                                body.data.candles.forEach(function (candle) {
+                                    fs.appendFile(process.cwd() + '/data/' + duration + '/' + symbol.Code + '.csv',  candle.join(', ').replace('T', ' ').replace('+0530', '') + '\n', 'utf8', function (data) {
+                                    });
+                                });
+                                console.log(" Downloaded : ", symbol.Code, symbol.Token);
+                                mongoImport(symbol.Code, duration);
+                                //for(var i=0;i<10000000;i++);
+                                callback(null, symbol);
+                            });
+                        });
+
+                    } else {
+                        callback(body, symbol);
+                    }
+                });
+
+            });
+        });
+
+        async.series(tasks, function (err, res) {
+            if (err) {
+                console.log('Error Result : ', err);
+
+            } else {
+                console.log('All Task completed ');
+            }
+
+        })
+    }
+
+    var mongoImport = function (code, duration) {
+
+        duration = typeof duration !== 'undefined' ? duration : 'day';
+        var ns = duration.replace('30', 'thirty');
+        var ns = ns.replace('3', 'three');
+
+
+        var res = spawn('mongoimport', ["-d", "zerodha", "-c", ns, "--type", "csv", "--headerline", "--file", process.cwd() + "/data/" + duration + "/" + code + ".csv"]);
+
+        res.stdout.on('data', function (data) {
+            console.log('stdout: ' + data);
+            //runStrategy(code,ns);
+        });
+
+        res.stderr.on('data', function (data) {
+            console.log('stderr: ' + data);
+        });
+
+        res.on('exit', function (code) {
+            //console.log('child process exited with code ' + code);
+        });
+    }
+
+    var runStrategy = function (code, duration) {
+
+        duration = typeof duration !== 'undefined' ? duration : 'day';
+
+        console.log('direname : ', __dirname);
+
+        var stretegy = spawn('Rscript', [process.cwd() + "/data/zerodha.R", code, duration]);
+
+        console.log('Rservise : ', [process.cwd() + "/data/zerodha.R", code, duration].join);
+
+        stretegy.stdout.on('data', function (data) {
+            console.log('stdout: ' + data);
+        });
+
+        stretegy.stderr.on('data', function (data) {
+            console.log('stderr: ' + data);
+        });
+
+        stretegy.on('exit', function (code) {
+            //console.log('child process exited with code ' + code);
+        });
+    }
+
+
+    function runMinute() {
+        console.log("Running : ", Date())
+    }
+
+    task();
+    //setInterval(task, 18000)
+}
